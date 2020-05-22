@@ -1,9 +1,16 @@
 package com.future.works.reflect.controller;
 
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.future.works.reflect.pojo.QuizElements;
@@ -18,24 +25,25 @@ public class QuizController {
 	private QuizServiceImpl quizServiceImpl;
 	@Autowired
 	private UserDetailsRepository userDetailsRepo;
-	
+
 	@GetMapping("/quiz/curiosity")
-	  List<QuizElements> fetchCuriosityDetails() {
-	    return quizServiceImpl.fetchCuriosityDetails("Curiosity");
-	  }
-	
-	@GetMapping("/userDetails")
-	  List<UserDetails> getUserDetails() {
-		UserDetails usrD = new UserDetails();
-		usrD.setUserName("aa");
-		usrD.setPassword("12");
-		usrD.setRole("ADMIN");
-		userDetailsRepo.insert(usrD);
-	    return userDetailsRepo.findAll();
-	  }
-	
-		/*
-		 * @PostMapping("/quiz/curiosity") List<QuizElementsVO> newEmployee(@RequestBody
-		 * QuizElementsVO newEmployee) { return repository.save(newEmployee); }
-		 */
+	List<QuizElements> fetchCuriosityDetails() {
+		return quizServiceImpl.fetchCuriosityDetails("Curiosity");
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/userDetails")
+	List<UserDetails> getUserDetails() {
+		return userDetailsRepo.findAll();
+	}
+
+	@ExceptionHandler
+	void handleIllegalArgumentException(IllegalArgumentException e, HttpServletResponse response) throws IOException {
+		response.sendError(HttpStatus.BAD_REQUEST.value());
+
+	}
+
+	/*
+	 * @PostMapping("/quiz/curiosity") List<QuizElementsVO> newEmployee(@RequestBody
+	 * QuizElementsVO newEmployee) { return repository.save(newEmployee); }
+	 */
 }

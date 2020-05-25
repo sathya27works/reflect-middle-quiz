@@ -1,17 +1,20 @@
 package com.future.works.reflect.pojo;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
+@Document(collection = "reflect_quiz_details")
 public class QuizElements {
 
+	@Id
 	private String quizId;
 	private String quizQuestion;
 	private boolean configAnswer;
 	private int configScore;
-	private boolean userOption1Enabled;
-	private boolean userOption2Enabled;
 	
 	/**
 	 * @return the quizId
@@ -61,30 +64,5 @@ public class QuizElements {
 	public void setConfigScore(int configScore) {
 		this.configScore = configScore;
 	}
-	/**
-	 * @return the userOption1Enabled
-	 */
-	public boolean isUserOption1Enabled() {
-		return userOption1Enabled;
-	}
-	/**
-	 * @param userOption1Enabled the userOption1Enabled to set
-	 */
-	public void setUserOption1Enabled(boolean userOption1Enabled) {
-		this.userOption1Enabled = userOption1Enabled;
-	}
-	/**
-	 * @return the userOption2Enabled
-	 */
-	public boolean isUserOption2Enabled() {
-		return userOption2Enabled;
-	}
-	/**
-	 * @param userOption2Enabled the userOption2Enabled to set
-	 */
-	public void setUserOption2Enabled(boolean userOption2Enabled) {
-		this.userOption2Enabled = userOption2Enabled;
-	}
-	
 	
 }

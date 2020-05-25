@@ -3,15 +3,27 @@ package com.future.works.reflect.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.future.works.reflect.pojo.QuizElements;
+import com.future.works.reflect.repo.QuizDetailsRepository;
 
 @Component
 public class QuizDaoImpl implements QuizDao{
 
+	@Autowired
+	private QuizDetailsRepository quizDetailsRepository;
+	
 	@Override
 	public List<QuizElements> fetchQuizDetails(String quizType) {
+		
+		return quizDetailsRepository.findAll();
+		
+	}
+	
+//	@Override
+	public List<QuizElements> fetchQuizDetailsStatic(String quizType) {
 		//to do based on quiztype results should be returned
 		List<QuizElements> quizElements = new ArrayList<>();
 		QuizElements quiz1 = new QuizElements();
@@ -53,4 +65,5 @@ public class QuizDaoImpl implements QuizDao{
 		
 		return quizElements;
 	}
+	
 }

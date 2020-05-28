@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,11 +27,13 @@ public class QuizController {
 	@Autowired
 	private UserDetailsRepository userDetailsRepo;
 
+	@CrossOrigin(maxAge = 3600)
 	@GetMapping("/quiz/curiosity")
 	List<QuizElements> fetchCuriosityDetails() {
 		return quizServiceImpl.fetchCuriosityDetails("Curiosity");
 	}
 
+	@CrossOrigin(maxAge = 3600)
 	@RequestMapping(method = RequestMethod.GET, value = "/userDetails")
 	List<UserDetails> getUserDetails() {
 		return userDetailsRepo.findAll();

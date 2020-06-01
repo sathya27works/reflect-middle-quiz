@@ -15,6 +15,7 @@ public class QuizElements {
 	private int questionNo;
 	private String question;
 	private boolean answer;
+	private boolean userAnswer;
 	private int score;
 	private String created_by;
 	private String created_date;

@@ -10,8 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.future.works.reflect.pojo.QuizElements;
@@ -37,6 +39,13 @@ public class QuizController {
 	@RequestMapping(method = RequestMethod.GET, value = "/userDetails")
 	List<UserDetails> getUserDetails() {
 		return userDetailsRepo.findAll();
+	}
+	
+	@CrossOrigin(maxAge = 3600)
+	@RequestMapping(method = RequestMethod.POST, value = "/submitQuiz",consumes="application/json",produces="application/json")
+    @ResponseBody
+	String validateQuiz(@RequestBody List<QuizElements> quizElements) {
+		return quizServiceImpl.validateCuriosityDetails(quizElements);
 	}
 
 	@ExceptionHandler

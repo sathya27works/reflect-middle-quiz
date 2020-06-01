@@ -6,5 +6,7 @@ import com.future.works.reflect.pojo.QuizElements;
 
 public interface QuizService {
 
-	List<QuizElements> fetchCuriosityDetails(String quizType); 
+	List<QuizElements> fetchCuriosityDetails(String quizType);
+
+	String validateCuriosityDetails(List<QuizElements> quizElements); 
 }

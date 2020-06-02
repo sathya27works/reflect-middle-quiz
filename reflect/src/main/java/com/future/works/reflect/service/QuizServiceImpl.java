@@ -25,6 +25,7 @@ public class QuizServiceImpl implements QuizService{
 	public String validateCuriosityDetails(List<QuizElements> quizElements) {
 	  /** logic to arrive score for each entries and save to user quiz details table */
 		List<UserQuizDetails> userQuizDetails = new ArrayList<>();
+		Integer sumScore = 0;
 		for(QuizElements quizElement: quizElements) {
 			UserQuizDetails userQuizDetail = new UserQuizDetails();
 			userQuizDetail.setQuestion(quizElement.getQuestion());
@@ -32,12 +33,14 @@ public class QuizServiceImpl implements QuizService{
 			Integer userScore = 0;
 			if(quizElement.isAnswer()==quizElement.isUserAnswer()) {
 				userScore = quizElement.getScore();
+				sumScore += userScore;
 			}
 			userQuizDetail.setUserScore(userScore);
 			userQuizDetails.add(userQuizDetail);
 			
 		}
-		quizDaoImpl.validateQuiz(userQuizDetails);
-		return "Success";
+		quizDaoImpl.updateQuizEntries(userQuizDetails);
+		quizDaoImpl.fetchResultMessage(sumScore);
+		return "\" spring used \"";
 	}
 }

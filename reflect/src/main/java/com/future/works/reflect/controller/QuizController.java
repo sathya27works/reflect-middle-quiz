@@ -42,8 +42,8 @@ public class QuizController {
 	}
 	
 	@CrossOrigin(maxAge = 3600)
-	@RequestMapping(method = RequestMethod.POST, value = "/submitQuiz",consumes="application/json",produces="application/json")
-    @ResponseBody
+	@RequestMapping(method = RequestMethod.POST, value = "/submitQuiz")
+	@ResponseBody
 	String validateQuiz(@RequestBody List<QuizElements> quizElements) {
 		return quizServiceImpl.validateCuriosityDetails(quizElements);
 	}

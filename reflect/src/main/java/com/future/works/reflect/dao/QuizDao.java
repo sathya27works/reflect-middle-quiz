@@ -9,5 +9,7 @@ public interface QuizDao {
 
 	List<QuizElements> fetchQuizDetails(String quizType); 
 	
-	void validateQuiz(List<UserQuizDetails> userQuizDetails);
+	void updateQuizEntries(List<UserQuizDetails> userQuizDetails);
+
+	void fetchResultMessage(Integer score);
 }

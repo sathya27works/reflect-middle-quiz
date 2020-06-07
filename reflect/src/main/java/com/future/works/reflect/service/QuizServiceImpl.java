@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.future.works.reflect.dao.QuizDaoImpl;
+import com.future.works.reflect.pojo.BlindQuizSave;
 import com.future.works.reflect.pojo.QuizElements;
 import com.future.works.reflect.pojo.UserQuizDetails;
 
@@ -42,5 +43,15 @@ public class QuizServiceImpl implements QuizService{
 		quizDaoImpl.updateQuizEntries(userQuizDetails);
 		quizDaoImpl.fetchResultMessage(sumScore);
 		return "\" spring used \"";
+	}
+
+	@Override
+	public String saveBlindSpotQuiz(String uniqueId, String selectedList, String userId) {
+		BlindQuizSave save = new BlindQuizSave();
+		save.setSelectedList(selectedList);
+		save.setUniqueId(uniqueId);
+		save.setUserId(userId);
+		quizDaoImpl.saveBlindQuiz(save);
+		return "SUCCESS";
 	}
 }

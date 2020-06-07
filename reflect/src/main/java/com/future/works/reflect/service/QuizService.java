@@ -9,4 +9,6 @@ public interface QuizService {
 	List<QuizElements> fetchCuriosityDetails(String quizType);
 
 	String validateCuriosityDetails(List<QuizElements> quizElements); 
+	
+	String saveBlindSpotQuiz(String uniqueId, String selectedList, String userId);
 }

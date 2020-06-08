@@ -53,8 +53,4 @@ public class QuizDaoImpl implements QuizDao{
 		
 	}
 	
-	@Override
-	public List<QuizElements> getgrowthMindsetQueryDetails(String quizType) {
-		return quizDetailsRepository.findAll();
-	}
 }

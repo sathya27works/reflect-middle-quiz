@@ -15,5 +15,4 @@ public interface QuizDao {
 	void fetchResultMessage(Integer score);
 	void saveBlindQuiz(BlindQuizSave blindQuizSave);
 
-	List<QuizElements> getgrowthMindsetQueryDetails(String quizType);
 }

@@ -12,7 +12,5 @@ public interface QuizService {
 	
 	String saveBlindSpotQuiz(String uniqueId, String selectedList, String userId);
 
-	List<QuizElements> getgrowthMindsetQueryDetails(String quizType);
-
-	String validateGrowthMindsetAnswer(List<QuizElements> quizElements);
+	String validategrowthMindsetDetails(List<QuizElements> quizElements);
 }

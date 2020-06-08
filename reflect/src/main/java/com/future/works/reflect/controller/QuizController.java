@@ -56,7 +56,21 @@ public class QuizController {
 		
 		return quizServiceImpl.saveBlindSpotQuiz(uniqueId, selectedList, userId);
 	}
-
+	
+	@CrossOrigin(maxAge = 3600)
+	@GetMapping("/growthMindsetQuiz")
+	List<QuizElements> getgrowthMindsetQueryDetails() {
+		return quizServiceImpl.getgrowthMindsetQueryDetails("Growth Mindset Quiz");
+	}
+	
+	
+	  @CrossOrigin(maxAge = 3600)	  
+	  @RequestMapping(method = RequestMethod.POST, value = "/submitGrowthMindsetQuiz")	  
+	  @ResponseBody String validateGrowthMindsetQuiz(@RequestBody List<QuizElements> quizElements) { 
+		  return quizServiceImpl.validateGrowthMindsetAnswer(quizElements); 
+	  }
+	 
+	
 	@ExceptionHandler
 	void handleIllegalArgumentException(IllegalArgumentException e, HttpServletResponse response) throws IOException {
 		response.sendError(HttpStatus.BAD_REQUEST.value());

@@ -43,4 +43,9 @@ public class QuizDaoImpl implements QuizDao{
 		blindQuizSaveRepository.save(blindQuizSave);
 		
 	}
+	
+	@Override
+	public List<QuizElements> getgrowthMindsetQueryDetails(String quizType) {
+		return quizDetailsRepository.findAll();
+	}
 }

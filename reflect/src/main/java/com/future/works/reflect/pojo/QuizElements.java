@@ -13,6 +13,16 @@ public class QuizElements {
 	@Id
 	private String quizId;
 	private int questionNo;
+	private String question;
+	private boolean answer;
+	private boolean userAnswer;
+	private int score;
+	private String quiz_type;
+	private String created_by;
+	private String created_date;
+	private String updated_by;
+	private String updated_date;
+	
 	public String getQuizId() {
 		return quizId;
 	}
@@ -73,14 +83,10 @@ public class QuizElements {
 	public void setUpdated_date(String updated_date) {
 		this.updated_date = updated_date;
 	}
-	private String question;
-	private boolean answer;
-	private boolean userAnswer;
-	private int score;
-	private String created_by;
-	private String created_date;
-	private String updated_by;
-	private String updated_date;
-	
-	
+	public String getQuiz_type() {
+		return quiz_type;
+	}
+	public void setQuiz_type(String quiz_type) {
+		this.quiz_type = quiz_type;
+	}	
 }

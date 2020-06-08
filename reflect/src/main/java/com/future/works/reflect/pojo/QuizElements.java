@@ -12,6 +12,7 @@ public class QuizElements {
 
 	@Id
 	private String quizId;
+	private String quizType;
 	private int questionNo;
 	private String question;
 	private boolean answer;

@@ -3,6 +3,8 @@ package com.future.works.reflect.dao;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Component;
 
 import com.future.works.reflect.pojo.BlindQuizSave;
@@ -25,7 +27,14 @@ public class QuizDaoImpl implements QuizDao{
 	
 	@Override
 	public List<QuizElements> fetchQuizDetails(String quizType) {
-		return quizDetailsRepository.findAll();
+		ExampleMatcher customExampleMatcher = ExampleMatcher.matchingAny()
+				.withMatcher("quizType", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
+		QuizElements quizElements = new QuizElements();
+		quizElements.setQuizType(quizType);
+		Example<QuizElements> example = Example.of(quizElements, customExampleMatcher);
+		
+		return quizDetailsRepository.findAll(example);
+		
 	}
 	
 	@Override

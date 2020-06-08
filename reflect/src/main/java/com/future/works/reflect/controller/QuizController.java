@@ -32,9 +32,10 @@ public class QuizController {
 	private UserDetailsRepository userDetailsRepo;
 
 	@CrossOrigin(maxAge = 3600)
-	@GetMapping("/quiz/curiosity")
-	List<QuizElements> fetchCuriosityDetails() {
-		return quizServiceImpl.fetchCuriosityDetails("Curiosity");
+	@GetMapping("/quiz/{quizType}")
+	@ResponseBody
+	List<QuizElements> fetchCuriosityDetails(@PathVariable String quizType) {
+		return quizServiceImpl.fetchCuriosityDetails(quizType);
 	}
 
 	@CrossOrigin(maxAge = 3600)

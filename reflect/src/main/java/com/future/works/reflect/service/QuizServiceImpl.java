@@ -48,12 +48,12 @@ public class QuizServiceImpl implements QuizService{
 		quizDaoImpl.updateQuizEntries(userQuizDetails);
 		List<QuizResultDetails> fluxQuizResultDetails = quizDaoImpl.fetchResultMessage(quizType);
 		StringBuilder resultDisplayMessage = new StringBuilder();
-		resultDisplayMessage.append("'\'");
+		resultDisplayMessage.append("\"");
 		fluxQuizResultDetails.stream().filter(resultMessage ->resultMessage.getScore().contains(sumScoreFinal)).forEach(resultMessage-> {
             		 resultDisplayMessage.append(resultMessage.getResultMessage());
 		});
 		
-		resultDisplayMessage.append("'\'");
+		resultDisplayMessage.append("\"");
 		return resultDisplayMessage.toString();
 	}
 	

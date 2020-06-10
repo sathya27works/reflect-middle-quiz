@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +22,8 @@ import com.future.works.reflect.pojo.UserDetails;
 import com.future.works.reflect.repo.UserDetailsRepository;
 import com.future.works.reflect.service.QuizServiceImpl;
 
+import reactor.core.publisher.Flux;
+
 @RestController
 public class QuizController {
 
@@ -34,13 +35,13 @@ public class QuizController {
 	@CrossOrigin(maxAge = 3600)
 	@GetMapping("/quiz/{quizType}")
 	@ResponseBody
-	List<QuizElements> fetchCuriosityDetails(@PathVariable String quizType) {
+	Flux<QuizElements> fetchCuriosityDetails(@PathVariable String quizType) {
 		return quizServiceImpl.fetchCuriosityDetails(quizType);
 	}
 
 	@CrossOrigin(maxAge = 3600)
 	@RequestMapping(method = RequestMethod.GET, value = "/userDetails")
-	List<UserDetails> getUserDetails() {
+	Flux<UserDetails> getUserDetails() {
 		return userDetailsRepo.findAll();
 	}
 	
@@ -54,7 +55,6 @@ public class QuizController {
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(method = RequestMethod.GET, value = "/submitBlindSpot/{uniqueId}/{selectedList}/{userId}")
 	String submitBlindSpot(@PathVariable("uniqueId") String uniqueId, @PathVariable("selectedList") String selectedList, @PathVariable("userId") String userId) {
-		
 		return quizServiceImpl.saveBlindSpotQuiz(uniqueId, selectedList, userId);
 	}	 
 	

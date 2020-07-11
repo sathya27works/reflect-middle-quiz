@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.future.works.reflect.pojo.QuizElements;
 import com.future.works.reflect.pojo.UserDetails;
 import com.future.works.reflect.repo.UserDetailsRepository;
@@ -31,6 +32,12 @@ public class QuizController {
 	private QuizServiceImpl quizServiceImpl;
 	@Autowired
 	private UserDetailsRepository userDetailsRepo;
+	@Autowired
+	private DynamoDBMapper dynamoDBMapper;
+	
+	public QuizController(DynamoDBMapper dynamoDBMapper) {
+		this.dynamoDBMapper=dynamoDBMapper;
+	}
 
 	@CrossOrigin(maxAge = 3600)
 	@GetMapping("/quiz/{quizType}")
@@ -41,8 +48,9 @@ public class QuizController {
 
 	@CrossOrigin(maxAge = 3600)
 	@RequestMapping(method = RequestMethod.GET, value = "/userDetails")
-	Flux<UserDetails> getUserDetails() {
-		return userDetailsRepo.findAll();
+	UserDetails getUserDetails() {
+		//return userDetailsRepo.findAll();
+		return dynamoDBMapper.load(UserDetails.class, "1");
 	}
 	
 	@CrossOrigin(maxAge = 3600)

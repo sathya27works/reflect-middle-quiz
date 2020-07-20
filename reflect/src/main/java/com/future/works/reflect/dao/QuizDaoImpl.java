@@ -1,56 +1,65 @@
 package com.future.works.reflect.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Component;
 
+import com.future.works.reflect.pojo.BlindQuizSave;
 import com.future.works.reflect.pojo.QuizElements;
+import com.future.works.reflect.pojo.QuizResultDetails;
+import com.future.works.reflect.pojo.UserQuizDetails;
+import com.future.works.reflect.repo.BlindQuizSaveRepository;
+import com.future.works.reflect.repo.QuizDetailsRepository;
+import com.future.works.reflect.repo.QuizResultDetailsRepository;
+import com.future.works.reflect.repo.UserQuizDetailsRepository;
+
+import lombok.RequiredArgsConstructor;
+import reactor.core.publisher.Flux;
 
 @Component
+@RequiredArgsConstructor(onConstructor_ = {@Autowired} )
 public class QuizDaoImpl implements QuizDao{
 
+	private final QuizDetailsRepository quizDetailsRepository;
+	private final UserQuizDetailsRepository userQuizDetailsRepository;
+	private final BlindQuizSaveRepository blindQuizSaveRepository;
+	private final QuizResultDetailsRepository quizResultDetailsRepository;
+	
 	@Override
-	public List<QuizElements> fetchQuizDetails(String quizType) {
-		//to do based on quiztype results should be returned
-		List<QuizElements> quizElements = new ArrayList<>();
-		QuizElements quiz1 = new QuizElements();
-		quiz1.setQuizId("curiosity1");
-		quiz1.setQuizQuestion("A Need for Cognition is a scientific measure of intellectual curiosity. Take the quiz by answering true or false and PLACING JUST THE LETTER Y in the column you agree with");
-		quiz1.setConfigAnswer(true);
-		quiz1.setConfigScore(1);
-		quizElements.add(quiz1);
+	public Flux<QuizElements> fetchQuizDetails(String quizType) {
+		ExampleMatcher customExampleMatcher = ExampleMatcher.matchingAny()
+				.withMatcher("quizType", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
+		QuizElements quizElements = new QuizElements();
+		quizElements.setQuizType(quizType);
+		Example<QuizElements> example = Example.of(quizElements, customExampleMatcher);
 		
-		QuizElements quiz2 = new QuizElements();
-		quiz2.setQuizId("curiosity2");
-		quiz2.setQuizQuestion("I would prefer complex to simple problems.");
-		quiz2.setConfigAnswer(true);
-		quiz2.setConfigScore(2);
-		quizElements.add(quiz2);
+		return quizDetailsRepository.findAll(example);
 		
-		QuizElements quiz3 = new QuizElements();
-		quiz3.setQuizId("curiosity3");
-		quiz3.setQuizQuestion("I like to have the responsibility of handling a situation that requires a lot of thinking.");
-		quiz3.setConfigAnswer(false);
-		quiz3.setConfigScore(1);
-		quizElements.add(quiz3);
-		
-		QuizElements quiz4 = new QuizElements();
-		quiz4.setQuizId("curiosity4");
-		quiz4.setQuizQuestion("I usually end up deliberating about issues even when they do not affect me personally.");
-		quiz4.setConfigAnswer(true);
-		quiz4.setConfigScore(2);
-		quizElements.add(quiz4);
-		
-		QuizElements quiz5 = new QuizElements();
-		quiz5.setQuizId("curiosity5");
-		quiz5.setQuizQuestion("I find satisfaction in deliberating hard and for long hours.");
-		quiz5.setConfigAnswer(false);
-		quiz5.setConfigScore(1);
-		quizElements.add(quiz5);
-		
-		
-		
-		return quizElements;
 	}
+	
+	@Override
+	public void updateQuizEntries(List<UserQuizDetails> userQuizDetails) {
+		userQuizDetailsRepository.saveAll(userQuizDetails);
+	}
+	
+	@Override
+	public List<QuizResultDetails> fetchResultMessage(String quizType) {
+		ExampleMatcher customExampleMatcher = ExampleMatcher.matchingAny()
+				.withMatcher("quizType", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
+		QuizResultDetails quizResultDetails = new QuizResultDetails();
+		quizResultDetails.setQuizType(quizType);
+		Example<QuizResultDetails> example = Example.of(quizResultDetails, customExampleMatcher);
+		
+		return quizResultDetailsRepository.findAll(example);
+	}
+	
+	@Override
+	public void saveBlindQuiz(BlindQuizSave blindQuizSave) {
+		blindQuizSaveRepository.save(blindQuizSave);
+		
+	}
+	
 }

@@ -1,6 +1,7 @@
 package com.future.works.reflect.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -19,8 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.future.works.reflect.pojo.QuizElements;
 import com.future.works.reflect.pojo.UserDetails;
-import com.future.works.reflect.repo.UserDetailsRepository;
 import com.future.works.reflect.service.QuizServiceImpl;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 import reactor.core.publisher.Flux;
 
@@ -29,8 +30,6 @@ public class QuizController {
 
 	@Autowired
 	private QuizServiceImpl quizServiceImpl;
-	@Autowired
-	private UserDetailsRepository userDetailsRepo;
 	@Autowired
 	private DynamoDBMapper dynamoDBMapper;
 	
@@ -41,14 +40,20 @@ public class QuizController {
 	@CrossOrigin(maxAge = 3600)
 	@GetMapping("/quiz/{quizType}")
 	@ResponseBody
+	@HystrixCommand(fallbackMethod = "fetchCuriosityDetailsFallback")
 	public Flux<QuizElements> fetchCuriosityDetails(@PathVariable String quizType) {
 		return quizServiceImpl.fetchCuriosityDetails(quizType);
 	}
 
+	@SuppressWarnings("unused")
+	private List<QuizElements> fetchCuriosityDetailsFallback(@PathVariable String quizType) {
+		return new ArrayList<>();
+	}
+	
 	@CrossOrigin(maxAge = 3600)
 	@GetMapping("/userDetails")
-	public Flux<UserDetails> getUserDetails() {
-		return userDetailsRepo.findAll();
+	public UserDetails getUserDetails() {
+		return dynamoDBMapper.load(UserDetails.class, "1");
 	}
 	
 	@CrossOrigin(maxAge = 3600)

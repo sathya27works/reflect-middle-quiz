@@ -1,7 +1,6 @@
 package com.future.works.reflect.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -46,8 +45,8 @@ public class QuizController {
 	}
 
 	@SuppressWarnings("unused")
-	private List<QuizElements> fetchCuriosityDetailsFallback(@PathVariable String quizType) {
-		return new ArrayList<>();
+	private Flux<QuizElements> fetchCuriosityDetailsFallback(@PathVariable String quizType) {
+		return null;
 	}
 	
 	@CrossOrigin(maxAge = 3600)

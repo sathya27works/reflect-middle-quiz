@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.future.works.reflect.pojo.UserQuizDetails;
-import com.future.works.reflect.repo.UserQuizDetailsRepository;
+import com.future.works.reflect.pojo.QuizElements;
+import com.future.works.reflect.repo.QuizDetailsRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -14,12 +14,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor(onConstructor_ = {@Autowired} )
 public class QuizUpdateDaoImpl implements QuizUpdateDao{
 
-	private final UserQuizDetailsRepository userQuizDetailsRepository;
+	private final QuizDetailsRepository quizDetailsRepository;
 	
 	@Override
-	public void updateQuizEntries(List<UserQuizDetails> userQuizDetails) {
-		for(UserQuizDetails userQuizDetail: userQuizDetails) {
-			userQuizDetailsRepository.save(userQuizDetail);	
+	public void updateQuizEntries(List<QuizElements> quizElements) {
+		for(QuizElements quizElement: quizElements) {
+			quizDetailsRepository.save(quizElement);	
 		}
 	}
 		

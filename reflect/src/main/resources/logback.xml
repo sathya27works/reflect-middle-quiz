@@ -1,11 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %logger{36}.%M - %msg%n</pattern>
+    <property name="LOG_PATH" value="."/>
+
+    <appender name="FILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/reflectquizservice.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>${LOG_PATH}/reflectquizservice.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>
+                %d [%-15.15t] %-5p %-30.30c{1} -|%m%n
+            </Pattern>
         </encoder>
     </appender>
-    <root level="info">
-        <appender-ref ref="STDOUT" />
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                %d [%-15.15t] %-5p %-30.30c{1} -|%m%n
+            </Pattern>
+        </layout>
+    </appender>
+
+    <root>
+        <level value="INFO"/>
+        <appender-ref ref="FILE"/>
+        <!--<appender-ref ref="STDOUT" />-->
     </root>
+
+    <logger name="org.springframework" level="INFO"/>
+    <logger name="httpclient.wire" level="OFF"/>
+    <logger name="org.apache" level="OFF"/>
+    <logger name="org.apache.camel" level="INFO"/>
+    <logger name="ch.qos" level="OFF"/>
+    <logger name="com.amazonaws" level="OFF"/>
+
 </configuration>

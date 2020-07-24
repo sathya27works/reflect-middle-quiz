@@ -10,10 +10,10 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.future.works</groupId>
-	<artifactId>reflect-admin</artifactId>
+	<artifactId>reflect-quiz</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>CognizantReflectAdmin</name>
-	<description>Reflect Quiz Admin project for Spring Boot</description>
+	<name>CognizantReflect</name>
+	<description>Reflect Quiz project for Spring Boot</description>
 
 	
 	<properties>

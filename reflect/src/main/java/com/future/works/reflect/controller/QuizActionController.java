@@ -16,17 +16,17 @@ import com.future.works.reflect.service.QuizServiceImpl;
 
 @RestController
 @CrossOrigin(maxAge = 3600)
-public class AdminController {
+public class QuizActionController {
 
-	private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
+	private static final Logger logger = LoggerFactory.getLogger(QuizActionController.class);
 	@Autowired
 	private QuizServiceImpl quizServiceImpl;
 	
-	@PostMapping("/updateQuiz")
+	@PostMapping("/submitQuiz")
 	@ResponseBody
-	public String udateQuiz(@RequestBody List<QuizElements> quizElements) {
+	public String validateQuiz(@RequestBody List<QuizElements> quizElements) {
 		logger.info("validateQuiz for quizElements {}",quizElements.toString());
-		return quizServiceImpl.updateQuizDetails(quizElements);
+		return quizServiceImpl.validateCuriosityDetails(quizElements);
 	}
 	
 }

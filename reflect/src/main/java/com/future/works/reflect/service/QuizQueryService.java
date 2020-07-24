@@ -8,8 +8,8 @@ import reactor.core.publisher.Flux;
 
 public interface QuizQueryService {
 
-	Flux<QuizElements> fetchQuizDetails(String quizType);
+	Flux<QuizElements> fetchCuriosityDetails(String quizType);
 
-	String updateQuizDetails(List<QuizElements> quizElements); 
+	String validateCuriosityDetails(List<QuizElements> quizElements); 
 	
 }

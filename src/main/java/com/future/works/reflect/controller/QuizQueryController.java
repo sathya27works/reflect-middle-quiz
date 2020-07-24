@@ -25,14 +25,14 @@ public class QuizQueryController {
 	
 	@GetMapping("/quiz/{quizType}")
 	@ResponseBody
-	@HystrixCommand(fallbackMethod = "fetchCuriosityDetailsFallback")
-	public Flux<QuizElements> fetchCuriosityDetails(@PathVariable String quizType) {
-		logger.info("fetchCuriosityDetails quizType {}",quizType);
-		return quizServiceImpl.fetchCuriosityDetails(quizType);
+	@HystrixCommand(fallbackMethod = "fetchQuizDetailsFallback")
+	public Flux<QuizElements> fetchQuizDetails(@PathVariable String quizType) {
+		logger.info("fetchQuizDetails quizType {}",quizType);
+		return quizServiceImpl.fetchQuizDetails(quizType);
 	}
 
 	@SuppressWarnings("unused")
-	private Flux<QuizElements> fetchCuriosityDetailsFallback(@PathVariable String quizType) {
+	private Flux<QuizElements> fetchQuizDetailsFallback(@PathVariable String quizType) {
 		logger.debug("fallback method invoked due to circuit breaker OPEN");
 		return null;
 	}

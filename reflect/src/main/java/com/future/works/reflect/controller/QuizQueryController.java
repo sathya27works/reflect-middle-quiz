@@ -23,11 +23,18 @@ public class QuizQueryController {
 	@Autowired
 	private QuizServiceImpl quizServiceImpl;
 	
+	Pattern pattern = Pattern.compile("[a-zA-Z0-9]*");
+
 	@GetMapping("/quiz/{quizType}")
 	@ResponseBody
 	@HystrixCommand(fallbackMethod = "fetchCuriosityDetailsFallback", commandProperties = {@HystrixProperty(name=”execution.isolation.thread.timeoutInMilliSeconds”, value=”500”)
 })
 	public Flux<QuizElements> fetchCuriosityDetails(@PathVariable String quizType) {
+		Matcher matcher = pattern.matcher(quizType);
+ 
+      if (matcher.matches()) {
+	      throw new Exception();
+      }
 		logger.info("fetchCuriosityDetails quizType {}",quizType);
 		return quizServiceImpl.fetchCuriosityDetails(quizType);
 	}

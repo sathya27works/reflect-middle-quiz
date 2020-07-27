@@ -25,7 +25,8 @@ public class QuizQueryController {
 	
 	@GetMapping("/quiz/{quizType}")
 	@ResponseBody
-	@HystrixCommand(fallbackMethod = "fetchCuriosityDetailsFallback")
+	@HystrixCommand(fallbackMethod = "fetchCuriosityDetailsFallback", commandProperties = {@HystrixProperty(name=”execution.isolation.thread.timeoutInMilliSeconds”, value=”500”)
+})
 	public Flux<QuizElements> fetchCuriosityDetails(@PathVariable String quizType) {
 		logger.info("fetchCuriosityDetails quizType {}",quizType);
 		return quizServiceImpl.fetchCuriosityDetails(quizType);

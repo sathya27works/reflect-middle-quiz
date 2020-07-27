@@ -1,5 +1,8 @@
 package com.future.works.reflect.controller;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.future.works.reflect.pojo.QuizElements;
 import com.future.works.reflect.service.QuizServiceImpl;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 
 import reactor.core.publisher.Flux;
 
@@ -27,13 +31,13 @@ public class QuizQueryController {
 
 	@GetMapping("/quiz/{quizType}")
 	@ResponseBody
-	@HystrixCommand(fallbackMethod = "fetchCuriosityDetailsFallback", commandProperties = {@HystrixProperty(name=”execution.isolation.thread.timeoutInMilliSeconds”, value=”500”)
+	@HystrixCommand(fallbackMethod = "fetchCuriosityDetailsFallback", commandProperties = {@HystrixProperty(name="execution.isolation.thread.timeoutInMilliSeconds", value="500")
 })
-	public Flux<QuizElements> fetchCuriosityDetails(@PathVariable String quizType) {
+	public Flux<QuizElements> fetchCuriosityDetails(@PathVariable String quizType) throws Exception {
 		Matcher matcher = pattern.matcher(quizType);
  
       if (matcher.matches()) {
-	      throw new Exception();
+	      throw new Exception("Invalid character");
       }
 		logger.info("fetchCuriosityDetails quizType {}",quizType);
 		return quizServiceImpl.fetchCuriosityDetails(quizType);

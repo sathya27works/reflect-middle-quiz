@@ -36,7 +36,7 @@ public class QuizQueryController {
 	public Flux<QuizElements> fetchCuriosityDetails(@PathVariable String quizType) throws Exception {
 		Matcher matcher = pattern.matcher(quizType);
  
-      if (matcher.matches()) {
+      if (!matcher.matches()) {
 	      throw new Exception("Invalid character");
       }
 		logger.info("fetchCuriosityDetails quizType {}",quizType);

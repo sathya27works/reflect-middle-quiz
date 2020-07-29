@@ -18,8 +18,4 @@ public class QuizElements {
 	private boolean answer;
 	private boolean userAnswer;
 	private int score;
-	private String createdBy;
-	private String createdDate;
-	private String updatedBy;
-	private String updatedDate;
 }

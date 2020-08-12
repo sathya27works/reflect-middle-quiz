@@ -6,12 +6,10 @@ import com.future.works.reflect.pojo.QuizElements;
 
 import reactor.core.publisher.Flux;
 
-public interface QuizService {
+public interface QuizQueryService {
 
 	Flux<QuizElements> fetchCuriosityDetails(String quizType);
 
 	String validateCuriosityDetails(List<QuizElements> quizElements); 
 	
-	String saveBlindSpotQuiz(String uniqueId, String selectedList, String userId);
-
 }

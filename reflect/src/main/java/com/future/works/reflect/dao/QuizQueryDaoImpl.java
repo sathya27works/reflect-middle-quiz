@@ -7,25 +7,19 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Component;
 
-import com.future.works.reflect.pojo.BlindQuizSave;
 import com.future.works.reflect.pojo.QuizElements;
 import com.future.works.reflect.pojo.QuizResultDetails;
-import com.future.works.reflect.pojo.UserQuizDetails;
-import com.future.works.reflect.repo.BlindQuizSaveRepository;
 import com.future.works.reflect.repo.QuizDetailsRepository;
 import com.future.works.reflect.repo.QuizResultDetailsRepository;
-import com.future.works.reflect.repo.UserQuizDetailsRepository;
 
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 
 @Component
 @RequiredArgsConstructor(onConstructor_ = {@Autowired} )
-public class QuizDaoImpl implements QuizDao{
+public class QuizQueryDaoImpl implements QuizQueryDao{
 
 	private final QuizDetailsRepository quizDetailsRepository;
-	private final UserQuizDetailsRepository userQuizDetailsRepository;
-	private final BlindQuizSaveRepository blindQuizSaveRepository;
 	private final QuizResultDetailsRepository quizResultDetailsRepository;
 	
 	@Override
@@ -41,11 +35,6 @@ public class QuizDaoImpl implements QuizDao{
 	}
 	
 	@Override
-	public void updateQuizEntries(List<UserQuizDetails> userQuizDetails) {
-		userQuizDetailsRepository.saveAll(userQuizDetails);
-	}
-	
-	@Override
 	public List<QuizResultDetails> fetchResultMessage(String quizType) {
 		ExampleMatcher customExampleMatcher = ExampleMatcher.matchingAny()
 				.withMatcher("quizType", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
@@ -55,11 +44,5 @@ public class QuizDaoImpl implements QuizDao{
 		
 		return quizResultDetailsRepository.findAll(example);
 	}
-	
-	@Override
-	public void saveBlindQuiz(BlindQuizSave blindQuizSave) {
-		blindQuizSaveRepository.save(blindQuizSave);
 		
-	}
-	
 }

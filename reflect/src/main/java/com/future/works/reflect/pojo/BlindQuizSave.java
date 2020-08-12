@@ -13,8 +13,5 @@ public class BlindQuizSave {
 	private String userId;
 	private String selectedList;
 	private String uniqueId;
-	public String getUserId() {
-		return userId;
-	}
 	
 }

@@ -3,11 +3,13 @@ package com.future.works.reflect.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.future.works.reflect.dao.QuizDaoImpl;
-import com.future.works.reflect.pojo.BlindQuizSave;
+import com.future.works.reflect.dao.QuizQueryDaoImpl;
+import com.future.works.reflect.dao.QuizUpdateDaoImpl;
 import com.future.works.reflect.pojo.QuizElements;
 import com.future.works.reflect.pojo.QuizResultDetails;
 import com.future.works.reflect.pojo.UserQuizDetails;
@@ -15,13 +17,19 @@ import com.future.works.reflect.pojo.UserQuizDetails;
 import reactor.core.publisher.Flux;
 
 @Component
-public class QuizServiceImpl implements QuizService{
+public class QuizServiceImpl implements QuizQueryService{
+
+	private static final Logger logger = LoggerFactory.getLogger(QuizServiceImpl.class);
+	
+	@Autowired
+	private QuizQueryDaoImpl quizDaoImpl;
 
 	@Autowired
-	private QuizDaoImpl quizDaoImpl;
-
+	private QuizUpdateDaoImpl quizUpdateDaoImpl;
+	
 	@Override
 	public Flux<QuizElements> fetchCuriosityDetails(String quizType) {
+		logger.info("fetchCuriosityDetails for {}",quizType);
 		return quizDaoImpl.fetchQuizDetails(quizType);
 	}
 
@@ -44,8 +52,15 @@ public class QuizServiceImpl implements QuizService{
 			userQuizDetails.add(userQuizDetail);
 			quizType = quizElement.getQuizType();
 		}
+		logger.info("validateCuriosityDetails for {}",quizType);
 		final Integer sumScoreFinal = sumScore;
-		quizDaoImpl.updateQuizEntries(userQuizDetails);
+		quizUpdateDaoImpl.updateQuizEntries(userQuizDetails);
+		
+		return invokeElementMapper(quizType,sumScoreFinal);
+	}
+	
+	
+	private String invokeElementMapper(String quizType, Integer sumScoreFinal) {
 		List<QuizResultDetails> fluxQuizResultDetails = quizDaoImpl.fetchResultMessage(quizType);
 		StringBuilder resultDisplayMessage = new StringBuilder();
 		resultDisplayMessage.append("\"");
@@ -57,14 +72,5 @@ public class QuizServiceImpl implements QuizService{
 		return resultDisplayMessage.toString();
 	}
 	
-	@Override
-	public String saveBlindSpotQuiz(String uniqueId, String selectedList, String userId) {
-		BlindQuizSave save = new BlindQuizSave();
-		save.setSelectedList(selectedList);
-		save.setUniqueId(uniqueId);
-		save.setUserId(userId);
-		quizDaoImpl.saveBlindQuiz(save);
-		return "SUCCESS";
-	}
 	
 }
